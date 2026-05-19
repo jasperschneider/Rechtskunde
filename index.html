@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gutachtenstil – Schritt für Schritt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F2FB;
+    --bg-soft: #ECE8F8;
+    --paper: #FFFFFF;
+    --paper-tint: #FAF8FF;
+    --border: #E6E1F3;
+    --border-strong: #D8D1EC;
+    --ink: #1B1530;
+    --ink-soft: #3F3556;
+    --muted: #8B82A4;
+    --primary: #7C6BF0;
+    --primary-deep: #5B47D6;
+    --primary-soft: #EFEBFE;
+    --accent-pink: #F5C8E0;
+    --accent-blue: #C9D8F7;
+    --accent-mint: #CFEBE0;
+    --grad-hero: linear-gradient(135deg, #E8DFFB 0%, #F4E4F0 45%, #DCE6FA 100%);
+    --grad-cta: linear-gradient(135deg, #7C6BF0 0%, #9D7BEF 100%);
+    --radius-sm: 12px;
+    --radius: 20px;
+    --radius-lg: 28px;
+    --shadow-sm: 0 2px 8px rgba(91, 71, 214, 0.06);
+    --shadow: 0 8px 28px rgba(91, 71, 214, 0.08);
+    --shadow-lg: 0 24px 60px rgba(91, 71, 214, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* === NAV === */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(18px);
+    background: rgba(244, 242, 251, 0.78);
+    border-bottom: 1px solid rgba(216, 209, 236, 0.45);
+  }
+  .nav-inner {
+    max-width: 760px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.95rem; }
+  .logo-mark {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: var(--grad-cta);
+    display: grid; place-items: center;
+    color: white; font-family: 'Instrument Serif', serif; font-size: 1.1rem; font-style: italic;
+  }
+  .nav-steps {
+    display: flex; gap: 6px; margin-left: auto;
+    align-items: center;
+  }
+  .nav-pip {
+    width: 28px; height: 4px; border-radius: 99px;
+    background: var(--border-strong);
+    transition: background 0.25s ease, width 0.25s ease;
+  }
+  .nav-pip.active { background: var(--primary); width: 44px; }
+  .nav-pip.done { background: var(--primary); opacity: 0.4; }
+  @media (max-width: 540px) { .nav-pip { width: 18px; } .nav-pip.active { width: 28px; } }
+
+  .key-btn {
+    background: transparent; border: 1px solid transparent; cursor: pointer;
+    width: 30px; height: 30px; border-radius: 9px;
+    display: grid; place-items: center;
+    color: var(--muted); transition: all 0.2s ease;
+  }
+  .key-btn:hover { background: var(--bg-soft); color: var(--ink); border-color: var(--border); }
+  .key-btn.active { color: var(--primary); border-color: var(--border-strong); background: var(--primary-soft); }
+  .key-btn svg { width: 15px; height: 15px; }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    padding: 72px 0 88px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: -10% -10% auto -10%; height: 90%;
+    background: var(--grad-hero);
+    border-radius: 50%;
+    filter: blur(60px); opacity: 0.7;
+    z-index: -1;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--paper); color: var(--primary-deep);
+    padding: 8px 16px; border-radius: 99px;
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .pill-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--primary); box-shadow: 0 0 0 4px rgba(124,107,240,0.18);
+  }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 22px 0 18px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(120deg, var(--primary-deep), #C77AD8);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.lead {
+    max-width: 520px; margin: 0 auto 32px;
+    color: var(--ink-soft); font-size: 1.05rem;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 26px;
+    background: var(--grad-cta);
+    color: white; text-decoration: none;
+    border-radius: 99px; font-weight: 600; font-size: 0.95rem;
+    box-shadow: 0 12px 30px rgba(124, 107, 240, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(124, 107, 240, 0.5); }
+  .hero-cta svg { width: 16px; height: 16px; }
+
+  /* === INTRO MINI === */
+  .intro {
+    padding: 32px 0 48px;
+  }
+  .intro-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+  }
+  @media (max-width: 640px) { .intro-row { grid-template-columns: 1fr; } }
+  .intro-cell { padding: 6px 10px; }
+  .intro-cell + .intro-cell { border-left: 1px solid var(--border); }
+  @media (max-width: 640px) {
+    .intro-cell + .intro-cell { border-left: none; border-top: 1px solid var(--border); padding-top: 14px; }
+  }
+  .intro-num {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; font-size: 1.6rem;
+    color: var(--primary-deep);
+    line-height: 1;
+  }
+  .intro-cell h4 { font-size: 0.92rem; font-weight: 600; margin: 4px 0 2px; }
+  .intro-cell p { font-size: 0.82rem; color: var(--muted); }
+
+  /* === CHAPTER STEPS === */
+  .chapters { padding: 16px 0 40px; }
+
+  .chapter {
+    margin-bottom: 80px;
+    scroll-margin-top: 90px;
+  }
+  .chapter:last-child { margin-bottom: 40px; }
+
+  .chapter-header {
+    display: flex; align-items: baseline; gap: 18px;
+    margin-bottom: 8px;
+  }
+  .chapter-mark {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(3.2rem, 8vw, 4.6rem);
+    line-height: 0.9;
+    color: var(--primary-deep);
+    letter-spacing: -0.04em;
+    flex-shrink: 0;
+  }
+  .chapter[data-color="pink"] .chapter-mark { color: #B6478A; }
+  .chapter[data-color="blau"] .chapter-mark { color: #3F62B0; }
+  .chapter[data-color="mint"] .chapter-mark { color: #2A8061; }
+
+  .chapter-meta { padding-top: 4px; }
+  .chapter-tag {
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .chapter h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 4.4vw, 2.7rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  .chapter-divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--border-strong), transparent);
+    margin: 18px 0 22px;
+  }
+
+  .chapter-lede {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .chapter-lede strong { color: var(--ink); font-weight: 600; }
+
+  .chapter-question {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 18px 20px;
+    background: var(--paper-tint);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin: 16px 0 22px;
+  }
+  .chapter-question-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .chapter-question-text {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 0.98rem; font-weight: 500;
+    color: var(--ink); line-height: 1.55;
+    font-style: italic;
+  }
+
+  .chapter-example {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .chapter-example::before {
+    content: '"';
+    position: absolute; top: 6px; left: 18px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 4rem; line-height: 1;
+    color: var(--border-strong);
+  }
+  .chapter-example-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px; margin-left: 22px;
+  }
+  .chapter-example-text {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 0.95rem; line-height: 1.6;
+    color: var(--ink-soft);
+    margin-left: 22px;
+    font-weight: 450;
+    font-style: italic;
+  }
+
+  .chapter-tips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 22px;
+  }
+  .chip {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 8px 14px; border-radius: 99px;
+    font-size: 0.84rem; color: var(--ink-soft);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  .chip:hover {
+    background: var(--paper-tint);
+    border-color: var(--border-strong);
+    color: var(--ink);
+    transform: translateY(-1px);
+  }
+
+  /* === MINI HELP (per chapter) === */
+  .help {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .help.open { box-shadow: var(--shadow); border-color: var(--border-strong); }
+
+  .help-toggle {
+    width: 100%;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: transparent; border: none; cursor: pointer;
+    font-family: inherit; text-align: left;
+    color: var(--ink-soft);
+  }
+  .help-toggle:hover { background: var(--paper-tint); }
+  .help-toggle-icon {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: var(--primary-soft);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+  }
+  .help-toggle-icon svg { width: 14px; height: 14px; color: var(--primary-deep); }
+  .help.open .help-toggle-icon { background: var(--grad-cta); }
+  .help.open .help-toggle-icon svg { color: white; }
+  .help-toggle-title {
+    flex: 1;
+    font-size: 0.92rem; font-weight: 600; color: var(--ink);
+  }
+  .help-toggle-hint { font-size: 0.78rem; color: var(--muted); }
+  .help-chevron {
+    width: 16px; height: 16px; color: var(--muted);
+    transition: transform 0.25s ease;
+  }
+  .help.open .help-chevron { transform: rotate(180deg); }
+
+  .help-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .help.open .help-body { max-height: 1200px; }
+  .help-inner { padding: 6px 18px 18px; }
+
+  .help-modes {
+    display: flex; gap: 4px; padding: 4px;
+    background: var(--bg-soft);
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+  .help-mode {
+    flex: 1; border: none; background: transparent; cursor: pointer;
+    font-family: inherit; font-size: 0.82rem; font-weight: 500;
+    color: var(--muted);
+    padding: 8px 10px; border-radius: 7px;
+    transition: all 0.18s ease;
+  }
+  .help-mode:hover { color: var(--ink); }
+  .help-mode.active {
+    background: var(--paper);
+    color: var(--primary-deep); font-weight: 600;
+    box-shadow: var(--shadow-sm);
+  }
+  .help textarea {
+    width: 100%; min-height: 90px;
+    background: var(--paper-tint);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: inherit; font-size: 0.9rem;
+    color: var(--ink); resize: vertical; line-height: 1.5;
+    transition: all 0.18s ease;
+  }
+  .help textarea:focus { outline: none; border-color: var(--primary); background: var(--paper); box-shadow: 0 0 0 3px rgba(124,107,240,0.1); }
+  .help textarea::placeholder { color: var(--muted); }
+
+  .help-submit {
+    margin-top: 10px; padding: 11px 18px;
+    background: var(--grad-cta); color: white;
+    border: none; cursor: pointer;
+    border-radius: 10px;
+    font-family: inherit; font-size: 0.86rem; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 6px 16px rgba(124,107,240,0.25);
+    transition: all 0.2s ease;
+  }
+  .help-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(124,107,240,0.35); }
+  .help-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .help-submit svg { width: 14px; height: 14px; }
+
+  .help-loading-dots { display: inline-flex; gap: 3px; }
+  .help-loading-dots span {
+    width: 5px; height: 5px; background: white; border-radius: 50%;
+    animation: dot 1.2s infinite;
+  }
+  .help-loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .help-loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes dot { 0%,80%,100% { transform: scale(0.5); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+
+  .help-result {
+    margin-top: 12px; padding: 14px 16px;
+    background: var(--paper-tint);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.9rem; color: var(--ink-soft); line-height: 1.65;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+  .help-result.visible { display: block; }
+  .help-result strong { color: var(--ink); font-weight: 600; }
+  .help-result.is-error { background: #FFF1F1; border-color: #F5C4C4; color: #B23A3A; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* === CHECKLISTE === */
+  .check-wrap { padding: 40px 0 32px; }
+  .checklist-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 640px) { .checklist-card { padding: 24px 20px; } }
+  .checklist-card h3 {
+    font-family: 'Instrument Serif', serif; font-weight: 400;
+    font-size: 1.7rem; margin-bottom: 6px;
+  }
+  .checklist-card .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 22px; }
+  .checklist-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  @media (max-width: 540px) { .checklist-grid { grid-template-columns: 1fr; } }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 14px;
+    background: var(--paper-tint);
+    border-radius: 10px;
+    font-size: 0.88rem; color: var(--ink-soft);
+    cursor: pointer; user-select: none;
+    transition: all 0.18s ease;
+  }
+  .check-item:hover { background: var(--primary-soft); }
+  .check-box {
+    width: 18px; height: 18px; border-radius: 5px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--paper);
+    display: grid; place-items: center; flex-shrink: 0;
+    transition: all 0.18s ease;
+    margin-top: 2px;
+  }
+  .check-box svg { width: 11px; height: 11px; color: white; opacity: 0; transition: opacity 0.18s ease; }
+  .check-item.done .check-box { background: var(--primary); border-color: var(--primary); }
+  .check-item.done .check-box svg { opacity: 1; }
+  .check-item.done { color: var(--muted); text-decoration: line-through; }
+
+  /* === FOOTER === */
+  footer {
+    text-align: center; padding: 50px 24px 70px;
+    color: var(--muted); font-size: 0.85rem;
+  }
+  footer .heart { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-mark">G</div>
+      <span>Gutachtenstil</span>
+    </div>
+    <div class="nav-steps" id="navSteps">
+      <div class="nav-pip" data-target="schritt-1"></div>
+      <div class="nav-pip" data-target="schritt-2"></div>
+      <div class="nav-pip" data-target="schritt-3"></div>
+      <div class="nav-pip" data-target="schritt-4"></div>
+    </div>
+    <button class="key-btn" onclick="configureApiKey()" title="Groq API Key für lokale Tests konfigurieren">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- === HERO === -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap">
+    <span class="pill"><span class="pill-dot"></span> Rechtskunde · EF</span>
+    <h1>Schreib wie ein <em>Jurist</em>.<br>In vier klaren Schritten.</h1>
+    <p class="lead">Der Gutachtenstil ist nur ein Rezept mit vier Zutaten. An jeder Stelle kannst du fragen oder einen eigenen Satz prüfen lassen.</p>
+    <a href="#schritt-1" class="hero-cta">
+      Mit Schritt 1 starten
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- === INTRO MINI === -->
+<section class="intro">
+  <div class="wrap">
+    <div class="intro-row">
+      <div class="intro-cell">
+        <div class="intro-num">i.</div>
+        <h4>Klare Reihenfolge</h4>
+        <p>Erst Frage, dann Gesetz, dann Fall — nie das Ergebnis vorweg.</p>
+      </div>
+      <div class="intro-cell">
+        <div class="intro-num">ii.</div>
+        <h4>Sachliche Sprache</h4>
+        <p>Du argumentierst, du erzählst nicht.</p>
+      </div>
+      <div class="intro-cell">
+        <div class="intro-num">iii.</div>
+        <h4>Immer dasselbe Schema</h4>
+        <p>Funktioniert bei jedem Fall — Kaufvertrag bis Strafrecht.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === STEPS === -->
+<main class="chapters">
+  <div class="wrap">
+
+    <!-- SCHRITT 1 -->
+    <article class="chapter" id="schritt-1" data-color="lila" data-step="obersatz">
+      <div class="chapter-header">
+        <div class="chapter-mark">I</div>
+        <div class="chapter-meta">
+          <div class="chapter-tag">Schritt eins</div>
+          <h2>Obersatz</h2>
+        </div>
+      </div>
+      <div class="chapter-divider"></div>
+
+      <p class="chapter-lede">Du formulierst die <strong>rechtliche Frage</strong>, die du im weiteren Verlauf prüfen willst. Noch keine Antwort, nur die Frage.</p>
+
+      <div class="chapter-question">
+        <div>
+          <div class="chapter-question-label">Frag dich</div>
+          <div class="chapter-question-text">Wer will von wem was woraus?</div>
+        </div>
+      </div>
+
+      <div class="chapter-example">
+        <div class="chapter-example-label">Beispiel</div>
+        <div class="chapter-example-text">Fraglich ist, ob zwischen A und B ein Kaufvertrag zustande gekommen ist.</div>
+      </div>
+
+      <div class="chapter-tips">
+        <span class="chip">„Fraglich ist, ob …"</span>
+        <span class="chip">„Zu prüfen ist, ob …"</span>
+      </div>
+
+      <div class="help" data-help>
+        <button class="help-toggle" onclick="toggleHelp(this)">
+          <span class="help-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </span>
+          <span class="help-toggle-title">Fragen oder eigenen Obersatz prüfen</span>
+          <span class="help-toggle-hint">Hilfe</span>
+          <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="help-body">
+          <div class="help-inner">
+            <div class="help-modes">
+              <button class="help-mode active" data-mode="frage" onclick="setHelpMode(this)">Frage stellen</button>
+              <button class="help-mode" data-mode="text" onclick="setHelpMode(this)">Eigenen Obersatz prüfen</button>
+            </div>
+            <textarea data-input placeholder="z. B. Wie fang ich einen Obersatz an, wenn es um Diebstahl geht?"></textarea>
+            <button class="help-submit" onclick="askHelp(this)">
+              <span data-btn-text>Antwort holen</span>
+              <svg data-btn-icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <div class="help-loading-dots" data-loader style="display:none"><span></span><span></span><span></span></div>
+            </button>
+            <div class="help-result" data-result></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SCHRITT 2 -->
+    <article class="chapter" id="schritt-2" data-color="pink" data-step="definition">
+      <div class="chapter-header">
+        <div class="chapter-mark">II</div>
+        <div class="chapter-meta">
+          <div class="chapter-tag">Schritt zwei</div>
+          <h2>Definition</h2>
+        </div>
+      </div>
+      <div class="chapter-divider"></div>
+
+      <p class="chapter-lede">Du erklärst die <strong>gesetzlichen Voraussetzungen</strong> abstrakt — also losgelöst vom konkreten Fall. Hier zeigst du, dass du den Paragraphen kennst.</p>
+
+      <div class="chapter-question">
+        <div>
+          <div class="chapter-question-label">Frag dich</div>
+          <div class="chapter-question-text">Was sagt das Gesetz allgemein?</div>
+        </div>
+      </div>
+
+      <div class="chapter-example">
+        <div class="chapter-example-label">Beispiel</div>
+        <div class="chapter-example-text">Ein Kaufvertrag kommt gemäß § 433 BGB durch zwei übereinstimmende Willenserklärungen — Angebot und Annahme — zustande.</div>
+      </div>
+
+      <div class="chapter-tips">
+        <span class="chip">Paragraph nennen (§)</span>
+        <span class="chip">Voraussetzungen aufzählen</span>
+      </div>
+
+      <div class="help" data-help>
+        <button class="help-toggle" onclick="toggleHelp(this)">
+          <span class="help-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </span>
+          <span class="help-toggle-title">Fragen oder eigene Definition prüfen</span>
+          <span class="help-toggle-hint">Hilfe</span>
+          <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="help-body">
+          <div class="help-inner">
+            <div class="help-modes">
+              <button class="help-mode active" data-mode="frage" onclick="setHelpMode(this)">Frage stellen</button>
+              <button class="help-mode" data-mode="text" onclick="setHelpMode(this)">Eigene Definition prüfen</button>
+            </div>
+            <textarea data-input placeholder="z. B. Welcher Paragraph regelt Beleidigung?"></textarea>
+            <button class="help-submit" onclick="askHelp(this)">
+              <span data-btn-text>Antwort holen</span>
+              <svg data-btn-icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <div class="help-loading-dots" data-loader style="display:none"><span></span><span></span><span></span></div>
+            </button>
+            <div class="help-result" data-result></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SCHRITT 3 -->
+    <article class="chapter" id="schritt-3" data-color="blau" data-step="subsumtion">
+      <div class="chapter-header">
+        <div class="chapter-mark">III</div>
+        <div class="chapter-meta">
+          <div class="chapter-tag">Schritt drei</div>
+          <h2>Subsumtion</h2>
+        </div>
+      </div>
+      <div class="chapter-divider"></div>
+
+      <p class="chapter-lede">Jetzt der wichtigste Schritt: du <strong>vergleichst</strong> den Sachverhalt mit der Definition. Stimmt jede Voraussetzung mit deinem Fall überein?</p>
+
+      <div class="chapter-question">
+        <div>
+          <div class="chapter-question-label">Frag dich</div>
+          <div class="chapter-question-text">Passt der Fall zur Definition — Punkt für Punkt?</div>
+        </div>
+      </div>
+
+      <div class="chapter-example">
+        <div class="chapter-example-label">Beispiel</div>
+        <div class="chapter-example-text">A bot B sein Fahrrad für 300 € an (Angebot). B erklärte sich mit dem Preis einverstanden (Annahme). Damit liegen zwei übereinstimmende Willenserklärungen vor.</div>
+      </div>
+
+      <div class="chapter-tips">
+        <span class="chip">Sachverhalt zitieren</span>
+        <span class="chip">Voraussetzung für Voraussetzung</span>
+      </div>
+
+      <div class="help" data-help>
+        <button class="help-toggle" onclick="toggleHelp(this)">
+          <span class="help-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </span>
+          <span class="help-toggle-title">Fragen oder eigene Subsumtion prüfen</span>
+          <span class="help-toggle-hint">Hilfe</span>
+          <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="help-body">
+          <div class="help-inner">
+            <div class="help-modes">
+              <button class="help-mode active" data-mode="frage" onclick="setHelpMode(this)">Frage stellen</button>
+              <button class="help-mode" data-mode="text" onclick="setHelpMode(this)">Eigene Subsumtion prüfen</button>
+            </div>
+            <textarea data-input placeholder="z. B. Wie subsumiere ich, wenn der Sachverhalt unklar ist?"></textarea>
+            <button class="help-submit" onclick="askHelp(this)">
+              <span data-btn-text>Antwort holen</span>
+              <svg data-btn-icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <div class="help-loading-dots" data-loader style="display:none"><span></span><span></span><span></span></div>
+            </button>
+            <div class="help-result" data-result></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SCHRITT 4 -->
+    <article class="chapter" id="schritt-4" data-color="mint" data-step="ergebnis">
+      <div class="chapter-header">
+        <div class="chapter-mark">IV</div>
+        <div class="chapter-meta">
+          <div class="chapter-tag">Schritt vier</div>
+          <h2>Ergebnis</h2>
+        </div>
+      </div>
+      <div class="chapter-divider"></div>
+
+      <p class="chapter-lede">Erst <strong>jetzt</strong> formulierst du die Antwort auf deine Frage aus Schritt 1 — kurz und eindeutig.</p>
+
+      <div class="chapter-question">
+        <div>
+          <div class="chapter-question-label">Frag dich</div>
+          <div class="chapter-question-text">Ja oder nein — und wie sag ich's klar?</div>
+        </div>
+      </div>
+
+      <div class="chapter-example">
+        <div class="chapter-example-label">Beispiel</div>
+        <div class="chapter-example-text">Folglich ist zwischen A und B ein Kaufvertrag zustande gekommen.</div>
+      </div>
+
+      <div class="chapter-tips">
+        <span class="chip">„Folglich …"</span>
+        <span class="chip">„Damit …"</span>
+        <span class="chip">„Somit …"</span>
+      </div>
+
+      <div class="help" data-help>
+        <button class="help-toggle" onclick="toggleHelp(this)">
+          <span class="help-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </span>
+          <span class="help-toggle-title">Fragen oder eigenes Ergebnis prüfen</span>
+          <span class="help-toggle-hint">Hilfe</span>
+          <svg class="help-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="help-body">
+          <div class="help-inner">
+            <div class="help-modes">
+              <button class="help-mode active" data-mode="frage" onclick="setHelpMode(this)">Frage stellen</button>
+              <button class="help-mode" data-mode="text" onclick="setHelpMode(this)">Eigenes Ergebnis prüfen</button>
+            </div>
+            <textarea data-input placeholder="z. B. Darf ich „Ich denke" im Ergebnis schreiben?"></textarea>
+            <button class="help-submit" onclick="askHelp(this)">
+              <span data-btn-text>Antwort holen</span>
+              <svg data-btn-icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <div class="help-loading-dots" data-loader style="display:none"><span></span><span></span><span></span></div>
+            </button>
+            <div class="help-result" data-result></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<!-- === CHECKLISTE === -->
+<section class="check-wrap">
+  <div class="wrap">
+    <div class="checklist-card">
+      <h3>Bevor du abgibst</h3>
+      <p class="sub">Geh die Liste durch und hak ab, was du erledigt hast.</p>
+      <div class="checklist-grid">
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Rechtsfrage steht (Obersatz)</span></div>
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Voraussetzungen genannt</span></div>
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Paragraphen zitiert (§ …)</span></div>
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Sachverhalt Punkt für Punkt geprüft</span></div>
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Klares Ergebnis am Ende</span></div>
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Keine Umgangssprache</span></div>
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Fachsprache verwendet</span></div>
+        <div class="check-item"><div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span>Reihenfolge eingehalten</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Gemacht mit <span class="heart">♥</span> für Rechtskunde EF
+</footer>
+
+<script>
+// === NAV pips: highlight current chapter ===
+const chapters = document.querySelectorAll('.chapter');
+const pips = document.querySelectorAll('.nav-pip');
+function updateNav() {
+  let activeIdx = -1;
+  chapters.forEach((c, i) => {
+    const r = c.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.45) activeIdx = i;
+  });
+  pips.forEach((p, i) => {
+    p.classList.toggle('active', i === activeIdx);
+    p.classList.toggle('done', i < activeIdx);
+  });
+}
+pips.forEach(p => p.addEventListener('click', () => {
+  document.getElementById(p.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}));
+window.addEventListener('scroll', updateNav, { passive: true });
+updateNav();
+
+// === CHECKLIST ===
+document.querySelectorAll('.check-item').forEach(item => {
+  item.addEventListener('click', () => item.classList.toggle('done'));
+});
+
+// === HELP toggles ===
+function toggleHelp(btn) {
+  const help = btn.closest('[data-help]');
+  help.classList.toggle('open');
+  if (help.classList.contains('open')) {
+    setTimeout(() => help.querySelector('textarea')?.focus(), 200);
+  }
+}
+function setHelpMode(btn) {
+  const help = btn.closest('[data-help]');
+  help.querySelectorAll('.help-mode').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const mode = btn.dataset.mode;
+  const ta = help.querySelector('textarea');
+  const step = help.closest('.chapter').dataset.step;
+  const placeholders = {
+    frage: {
+      obersatz: 'z. B. Wie fang ich einen Obersatz an, wenn es um Diebstahl geht?',
+      definition: 'z. B. Welcher Paragraph regelt Beleidigung?',
+      subsumtion: 'z. B. Wie subsumiere ich, wenn der Sachverhalt unklar ist?',
+      ergebnis: 'z. B. Darf ich „Ich denke" im Ergebnis schreiben?'
+    },
+    text: {
+      obersatz: 'Schreib hier deinen Obersatz rein …',
+      definition: 'Schreib hier deine Definition rein …',
+      subsumtion: 'Schreib hier deine Subsumtion rein …',
+      ergebnis: 'Schreib hier dein Ergebnis rein …'
+    }
+  };
+  ta.placeholder = placeholders[mode][step];
+  const btnText = help.querySelector('[data-btn-text]');
+  btnText.textContent = mode === 'frage' ? 'Antwort holen' : 'Prüfen lassen';
+}
+
+// === Prompts per step ===
+const stepPrompts = {
+  obersatz: {
+    role: 'Schritt 1 des Gutachtenstils: dem Obersatz. Der Obersatz formuliert die rechtliche Frage („Fraglich ist, ob …").',
+  },
+  definition: {
+    role: 'Schritt 2 des Gutachtenstils: der Definition. Hier werden gesetzliche Voraussetzungen abstrakt erklärt und Paragraphen zitiert.',
+  },
+  subsumtion: {
+    role: 'Schritt 3 des Gutachtenstils: der Subsumtion. Hier wird der konkrete Sachverhalt mit der Definition verglichen — Voraussetzung für Voraussetzung.',
+  },
+  ergebnis: {
+    role: 'Schritt 4 des Gutachtenstils: dem Ergebnis. Hier wird die Antwort auf die Frage aus Schritt 1 klar formuliert („Folglich …").',
+  }
+};
+
+function configureApiKey() {
+  const currentKey = localStorage.getItem('groq_api_key') || '';
+  const newKey = prompt('Trage deinen kostenlosen Groq-API-Key für lokale Tests ein (wird nur in deinem Browser gespeichert):\nLass das Feld leer, um die Server-Verbindung (z. B. auf Vercel) zu nutzen.', currentKey);
+  
+  if (newKey === null) return; // Abbrechen gedrückt
+  
+  const trimmed = newKey.trim();
+  if (trimmed) {
+    localStorage.setItem('groq_api_key', trimmed);
+    alert('API-Key erfolgreich gespeichert! Lokale Anfragen gehen jetzt direkt an Groq.');
+    document.querySelector('.key-btn')?.classList.add('active');
+  } else {
+    localStorage.removeItem('groq_api_key');
+    alert('API-Key entfernt. Lokale Anfragen nutzen nun den Server-Pfad (/api/chat).');
+    document.querySelector('.key-btn')?.classList.remove('active');
+  }
+}
+
+// Initialer Status des API-Key-Buttons beim Laden der Seite
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('groq_api_key')) {
+    document.querySelector('.key-btn')?.classList.add('active');
+  }
+});
+
+async function askHelp(btn) {
+  const help = btn.closest('[data-help]');
+  const ta = help.querySelector('textarea');
+  const input = ta.value.trim();
+  if (!input) { ta.focus(); return; }
+
+  const result = help.querySelector('[data-result]');
+  const btnText = help.querySelector('[data-btn-text]');
+  const btnIcon = help.querySelector('[data-btn-icon]');
+  const loader = help.querySelector('[data-loader]');
+  const mode = help.querySelector('.help-mode.active').dataset.mode;
+  const step = help.closest('.chapter').dataset.step;
+
+  btn.disabled = true;
+  btnText.style.display = 'none';
+  btnIcon.style.display = 'none';
+  loader.style.display = 'inline-flex';
+  result.classList.remove('visible', 'is-error');
+
+  const ctx = stepPrompts[step].role;
+  let prompt;
+  if (mode === 'frage') {
+    prompt = `Du bist ein Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium. Beantworte die folgende Schülerfrage knapp (2–4 Sätze), schülertauglich und konkret bezogen auf ${ctx}\n\nFrage: ${input}`;
+  } else {
+    prompt = `Du bist ein Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium. Der Schüler hat einen Text geschrieben, der zu ${ctx} gehört. Bewerte ihn kurz (max. 4 Sätze): Was ist gut, was fehlt oder ist umgangssprachlich? Gib am Ende einen kurzen Verbesserungsvorschlag in Anführungszeichen. Antworte nur in Fließtext, kein Markdown.\n\nText: ${input}`;
+  }
+
+  const localApiKey = localStorage.getItem('groq_api_key');
+
+  try {
+    let response;
+    if (localApiKey) {
+      // Direkter Aufruf der Groq API vom Browser aus (ideal für lokales Testen)
+      response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localApiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.5,
+          max_tokens: 600
+        })
+      });
+    } else {
+      // Sicherer Aufruf über deine Serverless-Proxy-Funktion (im produktiven Deployment)
+      response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+    }
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error?.message || data.error || 'API Fehler');
+    }
+
+    const text = data.choices[0].message.content.trim();
+    result.innerHTML = text.replace(/\n/g, '<br>');
+    result.classList.add('visible');
+  } catch (err) {
+    if (!localApiKey && (err.message.includes('Failed to fetch') || err.message.includes('404'))) {
+      result.innerHTML = `<strong>Server nicht aktiv.</strong><br>Da du die Datei lokal testest, klicke oben rechts auf das Schlüssel-Symbol 🔑, um deinen kostenlosen Groq-API-Key zu hinterlegen.`;
+    } else {
+      result.innerHTML = `<strong>Verbindung fehlgeschlagen.</strong><br>${err.message}`;
+    }
+    result.classList.add('visible', 'is-error');
+  } finally {
+    btn.disabled = false;
+    btnText.style.display = 'inline';
+    btnIcon.style.display = 'inline';
+    loader.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
