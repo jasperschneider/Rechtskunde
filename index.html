@@ -933,10 +933,23 @@ function formatFeedback(text) {
   const improveMatch = text.match(improveRegex);
   const suggestMatch = text.match(suggestRegex);
 
+  // Finde optionalen Text vor dem ersten Tag
+  const introRegex = /^([\s\S]*?)(?=(?:✅\s*Gut:|⚠️\s*Verbessern:|✍️\s*Vorschlag:))/i;
+  const introMatch = text.match(introRegex);
+
   let html = '';
   
   if (goodMatch || improveMatch || suggestMatch) {
     html += '<div class="feedback-wrap">';
+    
+    // Optionaler Kontext am Anfang ausgeben (schön gestylt, passend zum Rest)
+    if (introMatch && introMatch[1].trim()) {
+      html += `
+        <div class="feedback-intro" style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.65; margin-bottom: 12px; padding: 0 4px; border-left: 2px solid var(--border-strong); padding-left: 12px;">
+          ${introMatch[1].trim().replace(/\n/g, '<br>')}
+        </div>
+      `;
+    }
     
     if (goodMatch && goodMatch[1].trim()) {
       html += `
@@ -999,18 +1012,22 @@ async function askHelp(btn) {
 
   const stepInfo = stepPrompts[step];
   
-  // System-Prompt für stabile und professionelle Lehrer-Rolle
-  const systemPrompt = `Du bist ein präziser Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium in Deutschland.
-Du erklärst juristische Inhalte verständlich, aber fachlich korrekt.
-Du sprichst den Schüler dabei immer direkt, freundlich und persönlich mit "Du" an (z. B. "Das hast du gut gemacht", "Hier solltest du...", "Dein Satz..."). Verwende niemals die dritte Person ("der Schüler", "er", "sie") in deinen Rückmeldungen.
-Du darfst keine Paragraphen oder Rechtsnormen erfinden. Wenn du dir bei einer Norm unsicher bist, musst du das ausdrücklich sagen.
-Du prüfst juristische Texte streng nach dem Gutachtenstil und achtest besonders auf:
-- die richtige Reihenfolge,
-- juristische Fachsprache,
-- klare Trennung von Definition und Subsumtion,
-- logische Argumentation,
-- und inhaltliche Rechtsfehler.
-Du formulierst schülergerecht, aber nicht umgangssprachlich.`;
+  // System-Prompt für stabile, menschliche und professionelle Lehrer-Rolle
+  const systemPrompt = `Du bist ein präziser, aber menschlicher Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium in Deutschland.
+
+DEINE PERSÖNLICHKEIT:
+Du bist direkt, fair und erkennst, was ein Schüler gerade wirklich braucht — manchmal ist das eine kurze Einordnung, manchmal sofort die Kritik, manchmal ein aufmunternder Ton. Du passt dich an, ohne unprofessionell zu werden.
+Der Ton darf variieren: bei einem guten Ansatz wärmer und bestätigend, bei einem Grundlagenfehler klarer und direktiver — aber immer respektvoll und partnerschaftlich.
+
+SPRACHREGELN:
+- Sprich den Schüler IMMER direkt mit "Du" an (z. B. "Das hast du super gelöst...", "Hier solltest du...", "Dein Satz..."). Verwende NIEMALS die dritte Person ("der Schüler", "er", "sie").
+- Formuliere schülergerecht, aber juristisch präzise. Keine Umgangssprache.
+
+SICHERHEITSREGELN:
+- Erfinde KEINE Paragraphen. Bei Unsicherheit: „Ich bin mir bei diesem Paragraphen nicht sicher — bitte prüf das in deinem Buch oder frag deine Lehrkraft.“
+- Bleib ausschließlich beim Thema Gutachtenstil / deutsches Schulrecht EF. Andere Themen höflich ablehnen.
+- Formulierungsvorschläge bauen immer auf dem Text des Schülers auf — keine neuen Fälle oder Personen erfinden.
+- Gib bei echten Grenzfällen kein falsches Sicherheitsgefühl: Zeige, dass etwas diskutierbar ist.`;
 
   // User-Prompt maßgeschneidert auf den jeweiligen Schritt
   let userPrompt;
@@ -1018,12 +1035,21 @@ Du formulierst schülergerecht, aber nicht umgangssprachlich.`;
     userPrompt = `Ein Schüler hat eine Frage zu ${stepInfo.role} gestellt.
 Kontext für diesen Schritt: ${stepInfo.metaContext}
 
-Beantworte die folgende Schülerfrage knapp (2–4 Sätze), absolut schülertauglich und leicht verständlich für die Einführungsphase (EF) am Gymnasium, aber juristisch präzise. Sprich den Schüler direkt mit "Du" an.
+Beantworte die Schülerfrage knapp (2–4 Sätze), absolut schülertauglich und leicht verständlich für die EF, aber juristisch präzise.
 
-Halte dich an das folgende strukturierte Antwortformat. Falls die Frage komplett am Thema vorbei ist oder keinen Sinn ergibt, lasse den Abschnitt "✅ Gut:" komplett weg und starte direkt mit "⚠️ Verbessern:":
+KONTEXTBLOCK „Worum geht's hier?" (situativ, nicht starr):
+Füge einen kurzen Kontext-Satz (1–2 Sätze) am Anfang deiner Antwort ein (ohne Label, fließend als Einleitung), WENN einer dieser Fälle zutrifft:
+- Die Frage zeigt, dass der Schüler das Ziel dieses Schritts noch nicht verstanden hat
+- Ein kurzer Überblick würde die folgende Kritik deutlich verständlicher machen
+Lasse diesen Block komplett weg, wenn die Frage zeigt, dass der Schüler den Schritt bereits verstanden hat oder der Kontext offensichtlich ist.
+
+STRUKTUR DER ANTWORT:
+Halte dich an das folgende strukturierte Antwortformat. Falls die Frage komplett am Thema vorbei ist oder keinen Sinn ergibt, lasse den Abschnitt "✅ Gut:" komplett weg:
+
+[Optionaler Kontext-Satz am Anfang, falls sinnvoll — kein Label nötig, fließend in den Text]
 
 ✅ Gut:
-[Beantworte die Frage kurz, direkt an den Schüler gerichtet, und hebe positive Aspekte oder das Kernprinzip hervor]
+[Beantworte die Frage kurz, direkt an den Schüler gerichtet, und hebe positive Aspekte oder das Kernprinzip hervor. Weglassen, wenn nichts Positives da ist!]
 
 ⚠️ Verbessern:
 [Gib wichtige Tipps direkt an den Schüler gerichtet oder warne vor typischen Fehlern bei diesem Thema]
@@ -1038,30 +1064,27 @@ ${input}`;
 Kontext für diesen Schritt: ${stepInfo.metaContext}
 Prüfanweisungen: ${stepInfo.checks}
 
-Bewerte den Text des Schülers streng, ehrlich und konstruktiv nach den folgenden Regeln:
+Bewerte den eingereichten Text streng, ehrlich und konstruktiv nach den folgenden Regeln:
 
-1. PERSÖNLICHE ANREDE ("DU"):
-Sprich den Schüler in deinem Feedback immer direkt mit "Du" an (z. B. "Das hast du super gelöst...", "Hier solltest du darauf achten...", "Dein Obersatz..."). Verwende NIEMALS die dritte Person wie "der Schüler" oder "er/sie".
+KONTEXTBLOCK „Worum geht's hier?" (situativ, nicht starr):
+Füge einen kurzen Kontext-Satz (1–2 Sätze) am Anfang deiner Antwort ein (ohne Label, fließend als Einleitung), WENN einer dieser Fälle zutrifft:
+- Der Schüler macht einen grundlegenden Schritt-Fehler (falscher Schritt, falsche Struktur — z. B. Definition in der Subsumtion eingereicht)
+- Ein kurzer Überblick würde die folgende Kritik deutlich verständlicher machen
+Lasse diesen Block komplett weg, wenn der Text zeigt, dass der Schüler den Schritt bereits verstanden hat oder der Kontext offensichtlich ist.
 
-2. AUSSCHLIESSLICHER FOKUS AUF DEN SCHÜLERTEXT:
-Dein Formulierungsvorschlag unter "✍️ Vorschlag:" MUSS sich direkt auf den eingereichten Text des Schülers beziehen. Optimiere seinen konkreten Satz oder Text und mache ihn juristisch präzise. Erfinde keinen komplett neuen Fall oder neue Personen, sondern verbessere und korrigiere genau das, was der Schüler geschrieben hat.
+STRUKTUR DER BEWERTUNG:
+Halte dich an das folgende strukturierte Antwortformat. Lasse den Abschnitt "✅ Gut:" komplett weg, wenn nichts Positives da ist oder der Text im falschen Schritt eingereicht wurde:
 
-3. SCHRITT-CHECK (FEHLER-AUSBRUCH):
-Prüfe zuerst, ob der Schüler den Text im völlig falschen Schritt eingereicht hat!
-- Wenn er z. B. eine Definition in der Subsumtion eingereicht hat, einen Obersatz in der Definition, oder die Eingabe völlig unbrauchbar ist:
-  -> Lasse die Rubrik "✅ Gut:" komplett weg (Lösche sie rückstandslos aus deiner Antwort)! Es gibt hier nichts zu loben.
-  -> Beginne deine Antwort sofort mit "⚠️ Verbessern:" und erkläre dem Schüler unmissverständlich direkt: "Hier liegt ein grundlegender Fehler vor: Du hast hier eine [Definition/Obersatz/...] geschrieben, aber an dieser Stelle sollte eine [Subsumtion/...] stehen." Erkläre kurz und schülergerecht, warum das so ist und wie der richtige Schritt aufgebaut sein müsste.
-
-Struktur für deine Bewertung (lasse "✅ Gut:" komplett weg, falls der Text völlig unpassend oder im falschen Schritt eingereicht ist):
+[Optionaler Kontext-Satz am Anfang, falls sinnvoll — kein Label nötig, fließend in den Text]
 
 ✅ Gut:
-[Beschreibe kurz direkt an den Schüler adressiert, was er formal oder sprachlich bereits richtig gemacht hat]
+[Beschreibe kurz direkt an den Schüler adressiert, was er formal oder sprachlich bereits richtig gemacht hat. Weglassen, wenn nichts Positives da ist!]
 
 ⚠️ Verbessern:
 [Analysiere Fehler präzise und direkt an den Schüler gerichtet: Was fehlt dir? Wo vermischst du Definition und Fall? Steht dein Text im falschen Schritt? Gibt es inhaltliche Fehler oder Umgangssprache?]
 
 ✍️ Vorschlag:
-"[Ein konkreter, juristisch verbesserter Formulierungsvorschlag in Anführungszeichen, der genau auf dem Text des Schülers aufbaut und diesen korrigiert]"
+"[Ein konkreter, juristisch verbesserter Formulierungsvorschlag in Anführungszeichen, der genau auf dem Text des Schülers aufbaut und diesen korrigiert. Keine neuen Fälle oder Personen erfinden!]"
 
 Eingereichter Schülertext zur Prüfung:
 "${input}"`;
