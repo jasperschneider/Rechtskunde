@@ -993,7 +993,13 @@ async function askHelp(btn) {
 
   btn.disabled = true;
   btnText.style.display = 'none';
-  b  // System-Prompt für stabile und professionelle Lehrer-Rolle
+  btnIcon.style.display = 'none';
+  loader.style.display = 'inline-flex';
+  result.classList.remove('visible', 'is-error');
+
+  const stepInfo = stepPrompts[step];
+  
+  // System-Prompt für stabile und professionelle Lehrer-Rolle
   const systemPrompt = `Du bist ein präziser Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium in Deutschland.
 Du erklärst juristische Inhalte verständlich, aber fachlich korrekt.
 Du sprichst den Schüler dabei immer direkt, freundlich und persönlich mit "Du" an (z. B. "Das hast du gut gemacht", "Hier solltest du...", "Dein Satz..."). Verwende niemals die dritte Person ("der Schüler", "er", "sie") in deinen Rückmeldungen.
@@ -1053,13 +1059,6 @@ Struktur für deine Bewertung (lasse "✅ Gut:" komplett weg, falls der Text vö
 
 ⚠️ Verbessern:
 [Analysiere Fehler präzise und direkt an den Schüler gerichtet: Was fehlt dir? Wo vermischst du Definition und Fall? Steht dein Text im falschen Schritt? Gibt es inhaltliche Fehler oder Umgangssprache?]
-
-✍️ Vorschlag:
-"[Ein konkreter, juristisch verbesserter Formulierungsvorschlag in Anführungszeichen, der genau auf dem Text des Schülers aufbaut und diesen korrigiert]"
-
-Eingereichter Schülertext zur Prüfung:
-"${input}"`;
-  }oder Umgangssprache?]
 
 ✍️ Vorschlag:
 "[Ein konkreter, juristisch verbesserter Formulierungsvorschlag in Anführungszeichen, der genau auf dem Text des Schülers aufbaut und diesen korrigiert]"
