@@ -993,15 +993,10 @@ async function askHelp(btn) {
 
   btn.disabled = true;
   btnText.style.display = 'none';
-  btnIcon.style.display = 'none';
-  loader.style.display = 'inline-flex';
-  result.classList.remove('visible', 'is-error');
-
-  const stepInfo = stepPrompts[step];
-  
-  // System-Prompt für stabile und professionelle Lehrer-Rolle
+  b  // System-Prompt für stabile und professionelle Lehrer-Rolle
   const systemPrompt = `Du bist ein präziser Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium in Deutschland.
 Du erklärst juristische Inhalte verständlich, aber fachlich korrekt.
+Du sprichst den Schüler dabei immer direkt, freundlich und persönlich mit "Du" an (z. B. "Das hast du gut gemacht", "Hier solltest du...", "Dein Satz..."). Verwende niemals die dritte Person ("der Schüler", "er", "sie") in deinen Rückmeldungen.
 Du darfst keine Paragraphen oder Rechtsnormen erfinden. Wenn du dir bei einer Norm unsicher bist, musst du das ausdrücklich sagen.
 Du prüfst juristische Texte streng nach dem Gutachtenstil und achtest besonders auf:
 - die richtige Reihenfolge,
@@ -1017,15 +1012,15 @@ Du formulierst schülergerecht, aber nicht umgangssprachlich.`;
     userPrompt = `Ein Schüler hat eine Frage zu ${stepInfo.role} gestellt.
 Kontext für diesen Schritt: ${stepInfo.metaContext}
 
-Beantworte die folgende Schülerfrage knapp (2–4 Sätze), absolut schülertauglich und leicht verständlich für die Einführungsphase (EF) am Gymnasium, aber juristisch präzise.
+Beantworte die folgende Schülerfrage knapp (2–4 Sätze), absolut schülertauglich und leicht verständlich für die Einführungsphase (EF) am Gymnasium, aber juristisch präzise. Sprich den Schüler direkt mit "Du" an.
 
 Halte dich an das folgende strukturierte Antwortformat. Falls die Frage komplett am Thema vorbei ist oder keinen Sinn ergibt, lasse den Abschnitt "✅ Gut:" komplett weg und starte direkt mit "⚠️ Verbessern:":
 
 ✅ Gut:
-[Beantworte die Frage kurz und hebe positive Aspekte oder das Kernprinzip hervor]
+[Beantworte die Frage kurz, direkt an den Schüler gerichtet, und hebe positive Aspekte oder das Kernprinzip hervor]
 
 ⚠️ Verbessern:
-[Gib wichtige Tipps oder warne vor typischen Schülerfehlern bei diesem Thema]
+[Gib wichtige Tipps direkt an den Schüler gerichtet oder warne vor typischen Fehlern bei diesem Thema]
 
 ✍️ Vorschlag:
 "[Formuliere ein passendes Beispiel oder einen konkreten Tipp für die Praxis]"
@@ -1039,22 +1034,32 @@ Prüfanweisungen: ${stepInfo.checks}
 
 Bewerte den Text des Schülers streng, ehrlich und konstruktiv nach den folgenden Regeln:
 
-1. AUSSCHLIESSLICHER FOKUS AUF DEN SCHÜLERTEXT:
+1. PERSÖNLICHE ANREDE ("DU"):
+Sprich den Schüler in deinem Feedback immer direkt mit "Du" an (z. B. "Das hast du super gelöst...", "Hier solltest du darauf achten...", "Dein Obersatz..."). Verwende NIEMALS die dritte Person wie "der Schüler" oder "er/sie".
+
+2. AUSSCHLIESSLICHER FOKUS AUF DEN SCHÜLERTEXT:
 Dein Formulierungsvorschlag unter "✍️ Vorschlag:" MUSS sich direkt auf den eingereichten Text des Schülers beziehen. Optimiere seinen konkreten Satz oder Text und mache ihn juristisch präzise. Erfinde keinen komplett neuen Fall oder neue Personen, sondern verbessere und korrigiere genau das, was der Schüler geschrieben hat.
 
-2. SCHRITT-CHECK (FEHLER-AUSBRUCH):
+3. SCHRITT-CHECK (FEHLER-AUSBRUCH):
 Prüfe zuerst, ob der Schüler den Text im völlig falschen Schritt eingereicht hat!
 - Wenn er z. B. eine Definition in der Subsumtion eingereicht hat, einen Obersatz in der Definition, oder die Eingabe völlig unbrauchbar ist:
   -> Lasse die Rubrik "✅ Gut:" komplett weg (Lösche sie rückstandslos aus deiner Antwort)! Es gibt hier nichts zu loben.
-  -> Beginne deine Antwort sofort mit "⚠️ Verbessern:" und erkläre dem Schüler unmissverständlich: "Hier liegt ein grundlegender Fehler vor: Du hast hier eine [Definition/Obersatz/...] geschrieben, aber an dieser Stelle sollte eine [Subsumtion/...] stehen." Erkläre kurz und schülergerecht, warum das so ist und wie der richtige Schritt aufgebaut sein müsste.
+  -> Beginne deine Antwort sofort mit "⚠️ Verbessern:" und erkläre dem Schüler unmissverständlich direkt: "Hier liegt ein grundlegender Fehler vor: Du hast hier eine [Definition/Obersatz/...] geschrieben, aber an dieser Stelle sollte eine [Subsumtion/...] stehen." Erkläre kurz und schülergerecht, warum das so ist und wie der richtige Schritt aufgebaut sein müsste.
 
 Struktur für deine Bewertung (lasse "✅ Gut:" komplett weg, falls der Text völlig unpassend oder im falschen Schritt eingereicht ist):
 
 ✅ Gut:
-[Beschreibe kurz, was der Schüler formal oder sprachlich bereits richtig gemacht hat]
+[Beschreibe kurz direkt an den Schüler adressiert, was er formal oder sprachlich bereits richtig gemacht hat]
 
 ⚠️ Verbessern:
-[Analysiere Fehler präzise: Was fehlt? Wo werden Definition und Fall vermischt? Steht der Text im falschen Schritt? Gibt es inhaltliche Fehler oder Umgangssprache?]
+[Analysiere Fehler präzise und direkt an den Schüler gerichtet: Was fehlt dir? Wo vermischst du Definition und Fall? Steht dein Text im falschen Schritt? Gibt es inhaltliche Fehler oder Umgangssprache?]
+
+✍️ Vorschlag:
+"[Ein konkreter, juristisch verbesserter Formulierungsvorschlag in Anführungszeichen, der genau auf dem Text des Schülers aufbaut und diesen korrigiert]"
+
+Eingereichter Schülertext zur Prüfung:
+"${input}"`;
+  }oder Umgangssprache?]
 
 ✍️ Vorschlag:
 "[Ein konkreter, juristisch verbesserter Formulierungsvorschlag in Anführungszeichen, der genau auf dem Text des Schülers aufbaut und diesen korrigiert]"
