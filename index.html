@@ -131,6 +131,29 @@
   .intro {
     padding: 32px 0 48px;
   }
+  .intro-text-block {
+    max-width: 680px;
+    margin: 0 auto 48px;
+    text-align: center;
+    animation: fadeUp 0.35s ease;
+  }
+  .intro-text-block h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .intro-text-block p {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  @media (max-width: 640px) {
+    .intro-text-block { margin-bottom: 32px; }
+    .intro-text-block h2 { font-size: 1.8rem; }
+    .intro-text-block p { font-size: 0.96rem; }
+  }
   .intro-row {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 14px;
@@ -600,6 +623,10 @@
 <!-- === INTRO MINI === -->
 <section class="intro">
   <div class="wrap">
+    <div class="intro-text-block">
+      <h2>Was ist der Gutachtenstil?</h2>
+      <p>Der Gutachtenstil ist eine zentrale Methode im juristischen Arbeiten. Er dient dazu, Rechtsfragen systematisch und nachvollziehbar zu prüfen. Ziel ist es, nicht einfach ein Ergebnis zu nennen, sondern den Weg dorthin logisch und Schritt für Schritt darzustellen.</p>
+    </div>
     <div class="intro-row">
       <div class="intro-cell">
         <div class="intro-icon-wrap">
@@ -1102,6 +1129,25 @@ SPRACHREGELN:
 - Sprich den Schüler IMMER direkt mit "Du" an (z. B. "Das hast du super gelöst...", "Hier solltest du...", "Dein Satz..."). Verwende NIEMALS die dritte Person ("der Schüler", "er", "sie").
 - Formuliere schülergerecht, aber juristisch präzise. Keine Umgangssprache.
 
+FACHLICHE TIEFE:
+Fälle können mehrere Prüfungsebenen haben (z. B. I. Objektiver Tatbestand → 1. Kausalität → Conditio-sine-qua-non-Formel).
+Erkenne diese Struktur und beziehe dich in deinem Feedback präzise auf die richtige Ebene — nicht nur auf „den Schritt" allgemein.
+
+Wichtige Begriffe, die du korrekt erkennen und einordnen musst:
+- Eventualvorsatz (dolus eventualis): Täter nimmt den Erfolg billigend in Kauf — klar von direktem Vorsatz abgrenzen.
+- Rechtfertigungsgründe (§ 32 StGB Notwehr, § 34 StGB rechtfertigender Notstand): sind Teil der Rechtswidrigkeit, nicht des Tatbestands.
+- Conditio-sine-qua-non: Standardformel für Kausalität.
+- Objektive Zurechnung: rechtlich missbilligtes Risiko, das sich im Erfolg realisiert.
+
+BEIM PRÜFEN VON SUBSUMTIONEN:
+Erkenne, ob der Schüler innerhalb einer Notwehr- oder Rechtfertigungsprüfung schreibt.
+Prüfe dann nicht nur ob die Struktur stimmt, sondern ob:
+- Geeignetheit, mildestes Mittel und Gebotenheit sauber getrennt sind.
+- Der Schüler Definition und Fallbezug nicht vermischt.
+- Das Ergebnis der Unterebene zur übergeordneten Ebene passt.
+
+Passe deine Antwort an die Komplexität des eingereichten Textes an — ein einfacher Obersatz braucht kein Notwehr-Wissen, ein komplexer Strafrechtsfall schon.
+
 SICHERHEITSREGELN:
 - Erfinde KEINE Paragraphen. Bei Unsicherheit: „Ich bin mir bei diesem Paragraphen nicht sicher — bitte prüf das in deinem Buch oder frag deine Lehrkraft.“
 - Bleib ausschließlich beim Thema Gutachtenstil / deutsches Schulrecht EF. Andere Themen höflich ablehnen.
@@ -1116,11 +1162,11 @@ Kontext für diesen Schritt: ${stepInfo.metaContext}
 
 Beantworte die Schülerfrage knapp (2–4 Sätze), absolut schülertauglich und leicht verständlich für die EF, aber juristisch präzise.
 
-KONTEXTBLOCK „Worum geht's hier?" (situativ, nicht starr):
+KONTEXTBLOCK (situativ, nicht starr):
 Füge einen kurzen Kontext-Satz (1–2 Sätze) am Anfang deiner Antwort ein (ohne Label, fließend als Einleitung), WENN einer dieser Fälle zutrifft:
 - Die Frage zeigt, dass der Schüler das Ziel dieses Schritts noch nicht verstanden hat
 - Ein kurzer Überblick würde die folgende Kritik deutlich verständlicher machen
-Lasse diesen Block komplett weg, wenn die Frage zeigt, dass der Schüler den Schritt bereits verstanden hat oder der Kontext offensichtlich ist.
+Lasse diesen Block komplett weg, wenn der Schritt offensichtlich verstanden wurde oder er sich wie Wiederholung anfühlen würde.
 
 STRUKTUR DER ANTWORT:
 Halte dich an das folgende strukturierte Antwortformat. Falls die Frage komplett am Thema vorbei ist oder keinen Sinn ergibt, lasse den Abschnitt "✅ Gut:" komplett weg:
@@ -1145,11 +1191,11 @@ Prüfanweisungen: ${stepInfo.checks}
 
 Bewerte den eingereichten Text streng, ehrlich und konstruktiv nach den folgenden Regeln:
 
-KONTEXTBLOCK „Worum geht's hier?" (situativ, nicht starr):
+KONTEXTBLOCK (situativ, nicht starr):
 Füge einen kurzen Kontext-Satz (1–2 Sätze) am Anfang deiner Antwort ein (ohne Label, fließend als Einleitung), WENN einer dieser Fälle zutrifft:
 - Der Schüler macht einen grundlegenden Schritt-Fehler (falscher Schritt, falsche Struktur — z. B. Definition in der Subsumtion eingereicht)
 - Ein kurzer Überblick würde die folgende Kritik deutlich verständlicher machen
-Lasse diesen Block komplett weg, wenn der Text zeigt, dass der Schüler den Schritt bereits verstanden hat oder der Kontext offensichtlich ist.
+Lasse diesen Block komplett weg, wenn der Schritt offensichtlich verstanden wurde oder er sich wie Wiederholung anfühlen würde.
 
 STRUKTUR DER BEWERTUNG:
 Halte dich an das folgende strukturierte Antwortformat. Lasse den Abschnitt "✅ Gut:" komplett weg, wenn nichts Positives da ist oder der Text im falschen Schritt eingereicht wurde:
