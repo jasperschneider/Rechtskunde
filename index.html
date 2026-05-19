@@ -457,6 +457,69 @@
   }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* === BEISPIELFALL === */
+  .case-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.4s ease;
+  }
+  @media (max-width: 640px) { .case-card { padding: 24px 20px; margin-bottom: 28px; } }
+  .case-badge {
+    display: inline-block;
+    background: var(--primary-soft);
+    color: var(--primary-deep);
+    border: 1.5px solid rgba(124, 107, 240, 0.15);
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .case-card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 2.1rem;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .case-text {
+    font-size: 0.96rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+  .case-quest {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(254, 243, 199, 0.35);
+    border: 1px solid rgba(217, 119, 6, 0.18);
+    border-radius: 12px;
+    color: #7c4f10;
+    font-size: 0.94rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .case-quest-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #d97706;
+  }
+  .case-helper {
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+
   /* === CHECKLISTE === */
   .check-wrap { padding: 40px 0 32px; }
   .checklist-card {
@@ -566,6 +629,22 @@
 <!-- === STEPS === -->
 <main class="chapters">
   <div class="wrap">
+
+    <!-- === BEISPIELFALL === -->
+    <div class="case-card">
+      <div class="case-badge">Der Beispielfall</div>
+      <h3>Der Fahrrad-Kauf</h3>
+      <p class="case-text">
+        <strong>Sachverhalt:</strong> A bietet B sein gut erhaltenes Fahrrad für 300 € zum Kauf an. B freut sich sehr über das Angebot und stimmt dem Kauf sofort zu.
+      </p>
+      <div class="case-quest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="case-quest-icon"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span><strong>Die rechtliche Frage:</strong> Ist zwischen A und B ein wirksamer Kaufvertrag zustande gekommen?</span>
+      </div>
+      <div class="case-helper">
+        Dieses klassische Beispiel gehen wir nun Schritt für Schritt im Gutachtenstil durch. Nutze den Fall gerne, um die Funktionen unten zu testen!
+      </div>
+    </div>
 
     <!-- SCHRITT 1 -->
     <article class="chapter" id="schritt-1" data-color="lila" data-step="obersatz">
