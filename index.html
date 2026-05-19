@@ -55,17 +55,10 @@
   }
   .nav-inner {
     max-width: 760px; margin: 0 auto; padding: 14px 24px;
-    display: flex; align-items: center; gap: 18px;
-  }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.95rem; }
-  .logo-mark {
-    width: 30px; height: 30px; border-radius: 9px;
-    background: var(--grad-cta);
-    display: grid; place-items: center;
-    color: white; font-family: 'Instrument Serif', serif; font-size: 1.1rem; font-style: italic;
+    display: flex; align-items: center; justify-content: center; gap: 18px;
   }
   .nav-steps {
-    display: flex; gap: 6px; margin-left: auto;
+    display: flex; gap: 6px;
     align-items: center;
   }
   .nav-pip {
@@ -77,15 +70,6 @@
   .nav-pip.done { background: var(--primary); opacity: 0.4; }
   @media (max-width: 540px) { .nav-pip { width: 18px; } .nav-pip.active { width: 28px; } }
 
-  .key-btn {
-    background: transparent; border: 1px solid transparent; cursor: pointer;
-    width: 30px; height: 30px; border-radius: 9px;
-    display: grid; place-items: center;
-    color: var(--muted); transition: all 0.2s ease;
-  }
-  .key-btn:hover { background: var(--bg-soft); color: var(--ink); border-color: var(--border); }
-  .key-btn.active { color: var(--primary); border-color: var(--border-strong); background: var(--primary-soft); }
-  .key-btn svg { width: 15px; height: 15px; }
 
   /* === HERO === */
   .hero {
@@ -162,11 +146,21 @@
   @media (max-width: 640px) {
     .intro-cell + .intro-cell { border-left: none; border-top: 1px solid var(--border); padding-top: 14px; }
   }
-  .intro-num {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic; font-size: 1.6rem;
+  .intro-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--primary-soft);
+    border-radius: 10px;
     color: var(--primary-deep);
-    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .intro-icon-wrap svg {
+    width: 18px;
+    height: 18px;
+    display: block;
   }
   .intro-cell h4 { font-size: 0.92rem; font-weight: 600; margin: 4px 0 2px; }
   .intro-cell p { font-size: 0.82rem; color: var(--muted); }
@@ -394,17 +388,73 @@
   @keyframes dot { 0%,80%,100% { transform: scale(0.5); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
 
   .help-result {
-    margin-top: 12px; padding: 14px 16px;
-    background: var(--paper-tint);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    margin-top: 12px;
     font-size: 0.9rem; color: var(--ink-soft); line-height: 1.65;
     display: none;
     animation: fadeUp 0.3s ease;
   }
   .help-result.visible { display: block; }
   .help-result strong { color: var(--ink); font-weight: 600; }
-  .help-result.is-error { background: #FFF1F1; border-color: #F5C4C4; color: #B23A3A; }
+  .help-result.is-error { 
+    padding: 14px 16px;
+    background: #FFF1F1; 
+    border: 1px solid #F5C4C4; 
+    border-radius: 12px;
+    color: #B23A3A; 
+  }
+  .help-result-fallback {
+    padding: 14px 16px;
+    background: var(--paper-tint);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  /* === AI FEEDBACK BOXES === */
+  .feedback-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+    animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .feedback-section {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    border: 1px solid transparent;
+  }
+  .feedback-good {
+    background: rgba(207, 235, 224, 0.25);
+    border-color: rgba(42, 128, 97, 0.15);
+    color: #205e47;
+  }
+  .feedback-good strong {
+    color: #164a37;
+  }
+  .feedback-improve {
+    background: rgba(254, 243, 199, 0.3);
+    border-color: rgba(217, 119, 6, 0.18);
+    color: #7c4f10;
+  }
+  .feedback-improve strong {
+    color: #633c09;
+  }
+  .feedback-suggest {
+    background: var(--primary-soft);
+    border-color: rgba(124, 107, 240, 0.15);
+    color: var(--ink-soft);
+  }
+  .feedback-suggest strong {
+    color: var(--primary-deep);
+  }
+  .feedback-suggest blockquote {
+    margin-top: 6px;
+    border-left: 3px solid var(--primary);
+    padding-left: 12px;
+    font-style: italic;
+    color: var(--ink);
+  }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
   /* === CHECKLISTE === */
@@ -461,19 +511,12 @@
 
 <nav>
   <div class="nav-inner">
-    <div class="logo">
-      <div class="logo-mark">G</div>
-      <span>Gutachtenstil</span>
-    </div>
     <div class="nav-steps" id="navSteps">
       <div class="nav-pip" data-target="schritt-1"></div>
       <div class="nav-pip" data-target="schritt-2"></div>
       <div class="nav-pip" data-target="schritt-3"></div>
       <div class="nav-pip" data-target="schritt-4"></div>
     </div>
-    <button class="key-btn" onclick="configureApiKey()" title="Groq API Key für lokale Tests konfigurieren">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    </button>
   </div>
 </nav>
 
@@ -496,17 +539,23 @@
   <div class="wrap">
     <div class="intro-row">
       <div class="intro-cell">
-        <div class="intro-num">i.</div>
+        <div class="intro-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
         <h4>Klare Reihenfolge</h4>
         <p>Erst Frage, dann Gesetz, dann Fall — nie das Ergebnis vorweg.</p>
       </div>
       <div class="intro-cell">
-        <div class="intro-num">ii.</div>
+        <div class="intro-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </div>
         <h4>Sachliche Sprache</h4>
         <p>Du argumentierst, du erzählst nicht.</p>
       </div>
       <div class="intro-cell">
-        <div class="intro-num">iii.</div>
+        <div class="intro-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+        </div>
         <h4>Immer dasselbe Schema</h4>
         <p>Funktioniert bei jedem Fall — Kaufvertrag bis Strafrecht.</p>
       </div>
@@ -837,16 +886,24 @@ function setHelpMode(btn) {
 // === Prompts per step ===
 const stepPrompts = {
   obersatz: {
-    role: 'Schritt 1 des Gutachtenstils: dem Obersatz. Der Obersatz formuliert die rechtliche Frage („Fraglich ist, ob …").',
+    role: 'Schritt 1: Obersatz (rechtliche Frage)',
+    metaContext: 'Der Obersatz formuliert ausschließlich die rechtliche Frage. Er enthält noch keine Lösung oder Bewertung. Achte darauf, dass die Formulierung sachlich und juristisch klingt.',
+    checks: 'Prüfe streng: ob wirklich eine Rechtsfrage formuliert wurde, ob noch kein Ergebnis vorweggenommen wird, ob typische Formulierungen (z. B. „Fraglich ist, ob...“) genutzt werden und ob die Frage juristisch sinnvoll formuliert ist.'
   },
   definition: {
-    role: 'Schritt 2 des Gutachtenstils: der Definition. Hier werden gesetzliche Voraussetzungen abstrakt erklärt und Paragraphen zitiert.',
+    role: 'Schritt 2: Definition (gesetzliche Voraussetzungen)',
+    metaContext: 'Die Definition erklärt abstrakt die gesetzlichen Voraussetzungen. Der konkrete Sachverhalt darf hier noch nicht geprüft werden.',
+    checks: 'Prüfe streng: ob gesetzliche Voraussetzungen abstrakt erklärt werden, ob Paragraphen korrekt genannt werden, ob Definition und Fall NICHT vermischt werden (keine Namen oder Fallakten nennen!) und ob juristische Begriffe korrekt erklärt werden. WICHTIG: Erfinde keine Paragraphen. Wenn Unsicherheit besteht, schreibe: „Ich bin mir bei dem Paragraphen nicht sicher.“'
   },
   subsumtion: {
-    role: 'Schritt 3 des Gutachtenstils: der Subsumtion. Hier wird der konkrete Sachverhalt mit der Definition verglichen — Voraussetzung für Voraussetzung.',
+    role: 'Schritt 3: Subsumtion (Vergleich von Definition und Sachverhalt)',
+    metaContext: 'Die Subsumtion verbindet Definition und Sachverhalt. Jede Voraussetzung muss konkret am Fall geprüft werden.',
+    checks: 'Prüfe streng: ob wirklich argumentiert wird, ob die Voraussetzungen aus der Definition einzeln geprüft werden, ob der Sachverhalt konkret angewendet wird oder ob der Schüler nur nacherzählt. Erkenne typische Fehler: reine Wiedergabe des Sachverhalts, fehlende Verbindung zur Definition, keine juristische Argumentation.'
   },
   ergebnis: {
-    role: 'Schritt 4 des Gutachtenstils: dem Ergebnis. Hier wird die Antwort auf die Frage aus Schritt 1 klar formuliert („Folglich …").',
+    role: 'Schritt 4: Ergebnis (Antwort auf die Frage)',
+    metaContext: 'Das Ergebnis beantwortet die Rechtsfrage aus dem Obersatz knapp und eindeutig. Es enthält keine neue Prüfung.',
+    checks: 'Prüfe streng: ob das Ergebnis klar formuliert ist, ob es zur vorherigen Prüfung passt, ob keine Umgangssprache genutzt wird und ob keine neuen Argumente eingeführt werden.'
   }
 };
 
@@ -860,20 +917,66 @@ function configureApiKey() {
   if (trimmed) {
     localStorage.setItem('groq_api_key', trimmed);
     alert('API-Key erfolgreich gespeichert! Lokale Anfragen gehen jetzt direkt an Groq.');
-    document.querySelector('.key-btn')?.classList.add('active');
   } else {
     localStorage.removeItem('groq_api_key');
     alert('API-Key entfernt. Lokale Anfragen nutzen nun den Server-Pfad (/api/chat).');
-    document.querySelector('.key-btn')?.classList.remove('active');
   }
 }
 
-// Initialer Status des API-Key-Buttons beim Laden der Seite
-document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('groq_api_key')) {
-    document.querySelector('.key-btn')?.classList.add('active');
+// Helper zum Parsen und Formatieren der KI-Antworten in schöne Boxen
+function formatFeedback(text) {
+  const goodRegex = /(?:✅\s*Gut:?)\s*([\s\S]*?)(?=(?:⚠️\s*Verbessern:|✍️\s*Vorschlag:|$))/i;
+  const improveRegex = /(?:⚠️\s*Verbessern:?)\s*([\s\S]*?)(?=(?:✍️\s*Vorschlag:|✅\s*Gut:|$))/i;
+  const suggestRegex = /(?:✍️\s*Vorschlag:?)\s*([\s\S]*)/i;
+
+  const goodMatch = text.match(goodRegex);
+  const improveMatch = text.match(improveRegex);
+  const suggestMatch = text.match(suggestRegex);
+
+  let html = '';
+  
+  if (goodMatch || improveMatch || suggestMatch) {
+    html += '<div class="feedback-wrap">';
+    
+    if (goodMatch && goodMatch[1].trim()) {
+      html += `
+        <div class="feedback-section feedback-good">
+          <strong>✅ Gut gelungen</strong>
+          <p style="margin-top: 4px;">${goodMatch[1].trim().replace(/\n/g, '<br>')}</p>
+        </div>
+      `;
+    }
+    
+    if (improveMatch && improveMatch[1].trim()) {
+      html += `
+        <div class="feedback-section feedback-improve">
+          <strong>⚠️ Entwicklungspotenzial</strong>
+          <p style="margin-top: 4px;">${improveMatch[1].trim().replace(/\n/g, '<br>')}</p>
+        </div>
+      `;
+    }
+    
+    if (suggestMatch && suggestMatch[1].trim()) {
+      let val = suggestMatch[1].trim();
+      if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
+      else if (val.startsWith('“') && val.endsWith('”')) val = val.slice(1, -1);
+      else if (val.startsWith('„') && val.endsWith('“')) val = val.slice(1, -1);
+      
+      html += `
+        <div class="feedback-section feedback-suggest">
+          <strong>✍️ Formulierungsvorschlag</strong>
+          <blockquote>${val.replace(/\n/g, '<br>')}</blockquote>
+        </div>
+      `;
+    }
+    
+    html += '</div>';
+  } else {
+    html = `<div class="help-result-fallback">${text.replace(/\n/g, '<br>')}</div>`;
   }
-});
+  
+  return html;
+}
 
 async function askHelp(btn) {
   const help = btn.closest('[data-help]');
@@ -894,13 +997,65 @@ async function askHelp(btn) {
   loader.style.display = 'inline-flex';
   result.classList.remove('visible', 'is-error');
 
-  const ctx = stepPrompts[step].role;
-  let prompt;
+  const stepInfo = stepPrompts[step];
+  
+  // System-Prompt für stabile und professionelle Lehrer-Rolle
+  const systemPrompt = `Du bist ein präziser Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium in Deutschland.
+Du erklärst juristische Inhalte verständlich, aber fachlich korrekt.
+Du darfst keine Paragraphen oder Rechtsnormen erfinden. Wenn du dir bei einer Norm unsicher bist, musst du das ausdrücklich sagen.
+Du prüfst juristische Texte streng nach dem Gutachtenstil und achtest besonders auf:
+- die richtige Reihenfolge,
+- juristische Fachsprache,
+- klare Trennung von Definition und Subsumtion,
+- logische Argumentation,
+- und inhaltliche Rechtsfehler.
+Du formulierst schülergerecht, aber nicht umgangssprachlich.`;
+
+  // User-Prompt maßgeschneidert auf den jeweiligen Schritt
+  let userPrompt;
   if (mode === 'frage') {
-    prompt = `Du bist ein Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium. Beantworte die folgende Schülerfrage knapp (2–4 Sätze), schülertauglich und konkret bezogen auf ${ctx}\n\nFrage: ${input}`;
+    userPrompt = `Ein Schüler hat eine Frage zu ${stepInfo.role} gestellt.
+Kontext für diesen Schritt: ${stepInfo.metaContext}
+
+Beantworte die folgende Schülerfrage knapp (2–4 Sätze), absolut schülertauglich und leicht verständlich für die Einführungsphase (EF), aber juristisch präzise.
+
+Halte dich ZWINGEND an die folgende Struktur für deine Antwort. Nutze exakt die Präfixe (✅ Gut:, ⚠️ Verbessern:, ✍️ Vorschlag:) für die Abschnitte:
+
+✅ Gut:
+[Beantworte die Frage kurz und hebe positive Aspekte oder das Kernprinzip hervor]
+
+⚠️ Verbessern:
+[Gib wichtige Tipps oder warne vor typischen Schülerfehlern bei diesem Thema]
+
+✍️ Vorschlag:
+"[Formuliere ein passendes Beispiel oder einen konkreten Tipp für die Praxis]"
+
+Schülerfrage:
+${input}`;
   } else {
-    prompt = `Du bist ein Rechtskunde-Lehrer für die Einführungsphase (EF) am Gymnasium. Der Schüler hat einen Text geschrieben, der zu ${ctx} gehört. Bewerte ihn kurz (max. 4 Sätze): Was ist gut, was fehlt oder ist umgangssprachlich? Gib am Ende einen kurzen Verbesserungsvorschlag in Anführungszeichen. Antworte nur in Fließtext, kein Markdown.\n\nText: ${input}`;
+    userPrompt = `Ein Schüler hat einen Text zur Prüfung für ${stepInfo.role} eingereicht.
+Kontext für diesen Schritt: ${stepInfo.metaContext}
+Prüfanweisungen: ${stepInfo.checks}
+
+Bewerte den Text des Schülers streng und konstruktiv. Halte dich ZWINGEND an die folgende Struktur für deine Antwort. Nutze exakt die Präfixe (✅ Gut:, ⚠️ Verbessern:, ✍️ Vorschlag:) für die Abschnitte:
+
+✅ Gut:
+[Beschreibe kurz, was der Schüler fachlich oder formal bereits richtig gemacht hat]
+
+⚠️ Verbessern:
+[Analysiere Fehler: Was fehlt? Wo wird die Definition mit dem Fall vermischt? Gibt es inhaltliche Fehler oder Umgangssprache?]
+
+✍️ Vorschlag:
+"[Gib einen konkreten, verbesserten Formulierungsvorschlag in Anführungszeichen, den der Schüler direkt übernehmen kann]"
+
+Eingereichter Schülertext:
+${input}`;
   }
+
+  const messages = [
+    { role: "system", content: systemPrompt },
+    { role: "user", content: userPrompt }
+  ];
 
   const localApiKey = localStorage.getItem('groq_api_key');
 
@@ -916,8 +1071,8 @@ async function askHelp(btn) {
         },
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.5,
+          messages: messages,
+          temperature: 0.4, // Etwas niedrigere Temp für höhere Konsistenz und Präzision
           max_tokens: 600
         })
       });
@@ -929,7 +1084,7 @@ async function askHelp(btn) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          messages: [{ role: "user", content: prompt }]
+          messages: messages
         })
       });
     }
@@ -940,13 +1095,13 @@ async function askHelp(btn) {
     }
 
     const text = data.choices[0].message.content.trim();
-    result.innerHTML = text.replace(/\n/g, '<br>');
+    result.innerHTML = formatFeedback(text);
     result.classList.add('visible');
   } catch (err) {
     if (!localApiKey && (err.message.includes('Failed to fetch') || err.message.includes('404'))) {
-      result.innerHTML = `<strong>Server nicht aktiv.</strong><br>Da du die Datei lokal testest, klicke oben rechts auf das Schlüssel-Symbol 🔑, um deinen kostenlosen Groq-API-Key zu hinterlegen.`;
+      result.innerHTML = `<div class="help-result-fallback"><strong>Verbindung fehlgeschlagen.</strong><br>Der Server-Pfad (/api/chat) konnte nicht geladen werden. Bitte stelle sicher, dass die Anwendung auf Vercel läuft.</div>`;
     } else {
-      result.innerHTML = `<strong>Verbindung fehlgeschlagen.</strong><br>${err.message}`;
+      result.innerHTML = `<div class="help-result-fallback"><strong>Verbindung fehlgeschlagen.</strong><br>${err.message}</div>`;
     }
     result.classList.add('visible', 'is-error');
   } finally {
